@@ -1,6 +1,6 @@
 {
   "name": "react-generator-component",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "rng cli: cli para proyectos con react, react y storybook, creador de componentes",
   "main": "src/index.js",
   "bin": {

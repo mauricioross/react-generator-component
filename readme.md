@@ -2,6 +2,11 @@
 React Generator Component
 </h1>
 
+###Features
+<h4>version 1.0.3</h4>
+<ul>
+    <li>Add argument <b>--stories</b> : create file for Storybook</li>
+</ul>
 ### Description
 
 - You can create React js components with the following characteristics:
@@ -27,8 +32,13 @@ Description of each file:
 
 ###How to use
 
-To use this component in its current version 1.0.2, follow the instructions below:
+To use this component in its current version 1.0.3, follow the instructions below:
 
 1.- Go to the component containing folder using Terminal or Cmd.
 2.- enter the following command: rng --n ComponentName.
 3.- Verify that both the folder and the files have been generated.
+
+###Options
+
+<b>--n </b> : Name of component.
+<b>--stories</b> :Generate file for stories.
