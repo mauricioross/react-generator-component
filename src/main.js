@@ -75,9 +75,9 @@ export async function createComponent(options) {
     `${options.targetDirectory}/${options.name}.scss`,
     `${options.targetDirectory}/${options.name}.test.js`,
   ];
-  console.log(options.stories)
-  if (options.stories === 'false') {
-    console.log("Eliminando : ",listFiles[1]);
+  console.log(options.stories);
+  if (options.stories === "false") {
+    console.log("Eliminando : ", listFiles[1]);
     const path = listFiles[1];
 
     fs.unlink(path, (err) => {
@@ -91,8 +91,8 @@ export async function createComponent(options) {
     //console.log(listFiles[1]);
   }
   listFiles.forEach(async (file) => {
-     if(options.stories === 'false' && file === listFiles[1]) return; 
-    
+    if (options.stories === "false" && file === listFiles[1]) return;
+
     await fs.readFile(file, "utf8", async function (err, data) {
       if (err) {
         return console.log(`${chalk.red(err)}`);
@@ -106,4 +106,8 @@ export async function createComponent(options) {
   console.log(`Se creo ${chalk.green.bold(options.name)} de forma correcta `);
   // console.log("%s Template Ready", chalk.green.bold());
   return true;
+}
+
+export async function createPage(options){
+  
 }

@@ -1,11 +1,12 @@
 import arg from "arg";
 import inquirer from "inquirer";
-import { createComponent } from "./main.js";
+import { createComponent, createPage } from "./main.js";
 function parseArgumentIntoOptions(rawArgs) {
   const args = arg(
     {
       "--n": String,
       "--stories": String,
+      "--type":String
     },
     {
       argv: rawArgs.slice(2),
@@ -14,6 +15,7 @@ function parseArgumentIntoOptions(rawArgs) {
   return {
     name: args["--n"],
     stories: args["--stories"] || 'false',
+    type:args["--type"]||'none'
   };
 }
 async function promptForMissingOptions(options) {
@@ -30,7 +32,8 @@ async function promptForMissingOptions(options) {
   return {
     ...options,
     name: options.name || answers.name,
-    stories: options.stories || 'false'
+    stories: options.stories || 'false',
+    type:options.type || 'none'
   };
 }
 export async function cli(args) {
@@ -38,5 +41,10 @@ export async function cli(args) {
   let options = parseArgumentIntoOptions(args);
   console.log("options: ",options);
   options = await promptForMissingOptions(options);
-  await createComponent(options);
+  if(options.type === "page"){
+    await createPage(options);
+  }else{
+    await createComponent(options);
+
+  }
 }
