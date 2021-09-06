@@ -2,6 +2,10 @@
   "name": "react-generator-component",
   "version": "1.0.3",
   "description": "rng cli: cli para proyectos con react, react y storybook, creador de componentes",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:mauricioross/react-generator-component.git"
+  },
   "main": "src/index.js",
   "bin": {
     "rng": "./bin/rng-cli.bin",

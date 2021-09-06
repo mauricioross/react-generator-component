@@ -1,13 +1,22 @@
-<h1>
-React Generator Component
-</h1>
+# rng-cli
+A simple cli for react js
+---
 
-###Features
+## Installation
+
+This package is available on [npm](http://npmjs.com) as `rng-cli`.
+
+``` sh
+npm install rng-cli -g
+```
+
+## Features
 <h4>version 1.0.3</h4>
 <ul>
     <li>Add argument <b>--stories</b> : create file for Storybook</li>
 </ul>
-### Description
+
+## Description
 
 - You can create React js components with the following characteristics:
 <h4>
@@ -30,15 +39,18 @@ Description of each file:
 </ul>
 
 
-###How to use
+## How to use
 
 To use this component in its current version 1.0.3, follow the instructions below:
+<ul>
+<li>Go to the component containing folder using Terminal or Cmd.</li>
+<li>To create a page, enter the console : rng-cli --n 'pagename' --type 'indexPage'</li>
+<li>To create a component, enter the console : rng-cli --n 'componentname' --type 'button'</li>
+<li>To create a component with stories, enter the console : rng-cli --n 'componentname' --type 'button' --stories true</li>
+<li>Verify that both the folder and the files have been generated.</li>
+</ul>
 
-1.- Go to the component containing folder using Terminal or Cmd.
-2.- enter the following command: rng --n ComponentName.
-3.- Verify that both the folder and the files have been generated.
-
-###Options
+## Options
 
 <b>--n </b> : Name of component.
 <b>--stories</b> :Generate file for stories.
