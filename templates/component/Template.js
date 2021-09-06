@@ -7,7 +7,7 @@ import './Template.scss';
  */
 const Template = (props) => {
     return (
-        <div className="Template_container"> 
+        <div className="template_container"> 
             Hi i am a Template
         </div>
     )
