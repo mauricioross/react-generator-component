@@ -1,15 +1,15 @@
 {
   "name": "react-generator-component",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "rng cli: cli para proyectos con react, react y storybook, creador de componentes",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com:mauricioross/react-generator-component.git"
+    "url": "git+ssh://git@github.com/mauricioross/react-generator-component.git"
   },
   "main": "src/index.js",
   "bin": {
-    "rng": "./bin/rng-cli.bin",
-    "rng-cli": "./bin/rng-cli.bin"
+    "rng": "bin/rng-cli.bin",
+    "rng-cli": "bin/rng-cli.bin"
   },
   "publishConfig": {
     "access": "public"
@@ -30,10 +30,14 @@
     "cli-spinners": "^2.6.0",
     "esm": "^3.2.25",
     "figlet": "^1.5.0",
-    "git-clone": "^0.1.0",
     "inquirer": "^7.3.3",
     "log-update": "^4.0.0",
     "ncp": "^2.0.0",
     "nodegit": "^0.27.0"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/mauricioross/react-generator-component/issues"
+  },
+  "homepage": "https://github.com/mauricioross/react-generator-component#readme",
+  "devDependencies": {}
 }
