@@ -7,7 +7,7 @@ A simple cli for react js
 This package is available on [npm](http://npmjs.com) as `rng-cli`.
 
 ``` sh
-npm install rng-cli -g
+npm install react-generator-component -g
 ```
 
 ## Features
