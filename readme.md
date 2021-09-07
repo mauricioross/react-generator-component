@@ -11,7 +11,7 @@ npm install react-generator-component -g
 ```
 
 ## Features
-<h4>version 1.0.3</h4>
+<h4>version 1.0.4</h4>
 <ul>
     <li>Add argument <b>--stories</b> : create file for Storybook</li>
 </ul>
