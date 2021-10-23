@@ -8,9 +8,9 @@ import { execute } from "./utils/utils";
 const figlet = require("figlet");
 const access = promisify(fs.access);
 const copy = promisify(ncp);
-const { exec, spawn } = require("child_process");
-var Spinner = require('cli-spinner').Spinner;
-
+// const { exec, spawn } = require("child_process");
+var Spinner = require("cli-spinner").Spinner;
+const spawn = require("cross-spawn");
 // const cliSpinners = require("cli-spinners");
 // const logUpdate = require("log-update");
 // var Spinner = require("cli-spinner").Spinner;
@@ -23,7 +23,6 @@ const msn = (msn) => {
         font: "JS Block Letters",
         horizontalLayout: "default",
         verticalLayout: "fitted",
-        
       })
     )
   );
@@ -108,7 +107,7 @@ export async function createComponent(options) {
   try {
     await access(templateDir, fs.constants.R_OK);
   } catch (error) {
-    onsole.log(`${chalk.red.vold("Error")} Nombre de template Invalido`);
+    console.log(`${chalk.red.vold("Error")} Nombre de template Invalido`);
     process.exit(1);
   }
   options.targetDirectory = options.targetDirectory + `/${options.name}`;
@@ -123,7 +122,7 @@ export async function createComponent(options) {
     `${options.targetDirectory}/${options.name}.scss`,
     `${options.targetDirectory}/${options.name}.test.js`,
   ];
-  console.log(`${chalk.green.bold('(*)')} with .stories `);
+  console.log(`${chalk.green.bold("(*)")} with .stories `);
   if (options.stories === "false") {
     console.log("Deleted : ", listFiles[1]);
     const path = listFiles[1];
@@ -144,14 +143,23 @@ export async function createComponent(options) {
       if (err) {
         return console.log(`${chalk.red(err)}`);
       }
-      var result = data.replace(/Template/g, options.name);
+      const nameCapitalize =
+        options.name.substr(0, 1).toUpperCase() +
+        options.name.substr(1, options.name.length);
+      var result = data
+        .replace(/TEMPLATE/g, options.name.toUpperCase())
+        .replace(/Template/g, nameCapitalize)
+        .replace(/template/g, options.name.toLowerCase());
+      // var result = data.replace(/Template/g, options.name);
       fs.writeFile(file, result, "utf8", function (err) {
         if (err) return console.log(`${chalk.red.vold(err)}`);
       });
     });
   });
-  console.log(`${chalk.green.bold(options.name)} Component was created correctly`);
-  return ;
+  console.log(
+    `${chalk.green.bold(options.name)} Component was created correctly`
+  );
+  return;
 }
 
 export async function createPage(options) {
@@ -189,17 +197,82 @@ export async function createPage(options) {
     `${options.targetDirectory}/${options.name}Service.js`,
   ];
 
+  function validatePackage(pkg, callback) {
+    const x = spawn("npm", ["list", pkg, "--json=true"]);
+    var exist = false;
+    x.stdout.on("data", async (resp) => {
+      const json = JSON.parse(resp);
+      if (json.dependencies === undefined) {
+        console.log("Not install ", pkg);
+        exist = false;
+        return;
+      }
+      exist = true;
+      // console.log(`stdout: ${resp}`);
+      return;
+    });
+
+    x.stderr.on("data", (data) => {
+      // console.error(`stderr: ${data}`);
+    });
+
+    x.on("close", (code) => {
+      return callback(exist);
+    });
+  }
+  const removeLines = (data, lines = []) => {
+    return data
+      .split("\n")
+      .filter((val, idx) => lines.indexOf(idx) === -1)
+      .join("\n");
+  };
   listFiles.forEach(async (file) => {
     //if (options.stories === "false" && file === listFiles[1]) return;
-
+    console.log(file);
     await fs.readFile(file, "utf8", async function (err, data) {
+      var dataInFile = data;
       const nameCapitalize =
         options.name.substr(0, 1).toUpperCase() +
         options.name.substr(1, options.name.length);
       if (err) {
         return console.log(`${chalk.red(err)}`);
       }
+      // if (file.includes("index")) {
+      //   validatePackage("react-reduxx", async (exist) => {
+      //     if (!exist) {
+      //       var ndata = dataInFile
+      //         .replace(
+      //           'import { useDispatch, useSelector } from "react-redux";',
+      //           ""
+      //         )
+      //         .replace("//React Redux", "")
+      //         .replace("const dispatch = useDispatch();", "");
+      //       ndata = removeLines(ndata, [13, 14, 15]);
+      //       await fs.writeFile(file, ndata, "utf8", function (err) {
+      //         if (err) return console.log(`${chalk.red.vold(err)}`);
+      //       });
+      //     }
+      //   });
+      //   validatePackage("react-router-domx", async (exist) => {
+      //     if (!exist) {
+      //       var ndata = dataInFile
+      //         .replace('import {', "")
+      //         .replace("  useHistory,", "")
+      //         .replace("  useLocation,", "")
+      //         .replace("  useParams,", "")
+      //         .replace("  withRouter,", "")
+      //         .replace('} from "react-router-dom";', "")
 
+      //         .replace("//React Router", "")
+      //         .replace("const history = useHistory();", "");
+      //       await fs.writeFile(file, ndata, "utf8", function (err) {
+      //         if (err) return console.log(`${chalk.red.vold(err)}`);
+      //       });
+      //     }
+      //   });
+
+      //   return;
+      // }
       if (file.substr(file.length - 4, 4) === "scss") {
         var result = data.replace(/template/g, options.name.toLowerCase());
         fs.writeFile(file, result, "utf8", function (err) {
@@ -247,6 +320,7 @@ export async function createPage(options) {
         });
         return;
       }
+
       var result = data.replace(/Template/g, options.name);
       fs.writeFile(file, result, "utf8", function (err) {
         if (err) return console.log(`${chalk.red.vold(err)}`);
@@ -258,42 +332,48 @@ export async function createPage(options) {
 }
 
 export async function createSeed(options) {
-  console.log('Command out of service ');
+  console.log("Command out of service ");
   return;
   //validate if folder exist
   console.log(options.targetDirectory);
-  var spinner = new Spinner('%s We are creating the project from the seed.');
-  spinner.setSpinnerString('|/-\\');
+  var spinner = new Spinner("%s We are creating the project from the seed.");
+  spinner.setSpinnerString("|/-\\");
   spinner.start();
   execute("npm root -g", (resp) => {
     resp = resp.trim();
     const root_base = resp + "/react-generator-component/config/config.json";
     let rawdata = fs.readFileSync(root_base);
     let config = JSON.parse(rawdata);
-    console.log('path to dir : ',process.cwd()+'/'+options.name)
+    console.log("path to dir : ", process.cwd() + "/" + options.name);
     if (config.seed === "init") {
       execute(`npx create-react-app ${options.name}`, (resp) => {
         spinner.stop();
-        console.log('\nReact App created! ')
+        console.log("\nReact App created! ");
       });
     } else {
-      console.log('\ngit clone '+config.seed)
+      console.log("\ngit clone " + config.seed);
       var NodeGit = require("nodegit");
       var cloneURL = config.seed;
       var cloneOptions = {};
-      var localPath = process.cwd()+'/'+options.name;
+      var localPath = process.cwd() + "/" + options.name;
 
       cloneOptions.fetchOpts = {
         callbacks: {
-          certificateCheck: function() { return 0; },
-          credentials: function(url, userName) {
-            console.log('url : ',url)
-            console.log('userName : ',userName)
+          certificateCheck: function () {
+            return 0;
+          },
+          credentials: function (url, userName) {
+            console.log("url : ", url);
+            console.log("userName : ", userName);
             return NodeGit.Cred.sshKeyFromAgent(userName);
-          }
-        }
+          },
+        },
       };
-      var cloneRepository = NodeGit.Clone(cloneURL, process.cwd()+'/'+options.name, cloneOptions);
+      var cloneRepository = NodeGit.Clone(
+        cloneURL,
+        process.cwd() + "/" + options.name,
+        cloneOptions
+      );
     }
   });
   // temp-name
