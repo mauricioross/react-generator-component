@@ -69,7 +69,9 @@ export async function cli(args) {
   if (args[2] === "--h") {
     msn('by mross');
     console.log("We leave you these tips!!");
-    console.log(helpers);
+    helpers.forEach((h,i)=>{
+      console.log(`${i+1} - `,h)
+    })
     return;
   }
   if (args[2] === "--author") {
