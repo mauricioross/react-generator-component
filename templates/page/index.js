@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+// import { useDispatch, useSelector } from "react-redux";
 import TemplatePage from "./TemplatePage";
-import {
-  useHistory,
-  useLocation,
-  useParams,
-  withRouter,
-} from "react-router-dom";
+// import {
+//   useHistory,
+//   useLocation,
+//   useParams,
+//   withRouter,
+// } from "react-router-dom";
 const TemplateContainer = () => {
   //React Router
-  const history = useHistory();
+  // const history = useHistory();
 
   //React Redux
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   //React States
 
@@ -32,4 +32,4 @@ const TemplateContainer = () => {
   );
 };
 
-export default LandingContainer;
+export default TemplateContainer;
