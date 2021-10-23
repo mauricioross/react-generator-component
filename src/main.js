@@ -27,7 +27,15 @@ const msn = (msn) => {
     )
   );
 };
-
+async function getAuthor(callback) {
+  return await execute("npm root -g", (resp) => {
+    resp = resp.trim();
+    const root_base = resp + "/react-generator-component/config/config.json";
+    let rawdata = fs.readFileSync(root_base);
+    let config = JSON.parse(rawdata);
+    callback(config.author);
+  });
+}
 async function copyTemplateFiles(options) {
   return copy(options.templateDirectory, options.targetDirectory, {
     clobber: false,
@@ -164,6 +172,7 @@ export async function createComponent(options) {
 
 export async function createPage(options) {
   console.log("create page");
+
   msn(options.name);
   options = {
     ...options,
@@ -237,42 +246,16 @@ export async function createPage(options) {
       if (err) {
         return console.log(`${chalk.red(err)}`);
       }
-      // if (file.includes("index")) {
-      //   validatePackage("react-reduxx", async (exist) => {
-      //     if (!exist) {
-      //       var ndata = dataInFile
-      //         .replace(
-      //           'import { useDispatch, useSelector } from "react-redux";',
-      //           ""
-      //         )
-      //         .replace("//React Redux", "")
-      //         .replace("const dispatch = useDispatch();", "");
-      //       ndata = removeLines(ndata, [13, 14, 15]);
-      //       await fs.writeFile(file, ndata, "utf8", function (err) {
-      //         if (err) return console.log(`${chalk.red.vold(err)}`);
-      //       });
-      //     }
-      //   });
-      //   validatePackage("react-router-domx", async (exist) => {
-      //     if (!exist) {
-      //       var ndata = dataInFile
-      //         .replace('import {', "")
-      //         .replace("  useHistory,", "")
-      //         .replace("  useLocation,", "")
-      //         .replace("  useParams,", "")
-      //         .replace("  withRouter,", "")
-      //         .replace('} from "react-router-dom";', "")
-
-      //         .replace("//React Router", "")
-      //         .replace("const history = useHistory();", "");
-      //       await fs.writeFile(file, ndata, "utf8", function (err) {
-      //         if (err) return console.log(`${chalk.red.vold(err)}`);
-      //       });
-      //     }
-      //   });
-
-      //   return;
-      // }
+      if (file.includes("index")) {
+        await getAuthor(async (resp) => {
+          var data = dataInFile.replace(/AUTHOR/g, resp);
+          await fs.writeFile(file, data, "utf8", function (err) {
+            if (err) return console.log(`${chalk.red.vold(err)}`);
+          });
+          return;
+        });
+        return;
+      }
       if (file.substr(file.length - 4, 4) === "scss") {
         var result = data.replace(/template/g, options.name.toLowerCase());
         fs.writeFile(file, result, "utf8", function (err) {

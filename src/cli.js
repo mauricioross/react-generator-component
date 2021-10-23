@@ -19,7 +19,7 @@ const helpers = [
   "(WIP) To register author, enter the console : rng-cli --author 'mross",
   "(OK) To create a page, enter the console : rng-cli --n 'pagename' --type 'indexPage'",
   "(OK) To create a component, enter the console : rng-cli --n 'componentname' --type 'button'",
-  "(OK) To create a component with stories, enter the console : rng-cli --n 'componentname' --type 'button' --stories true",
+  "(OK) To create a component with stories for storybook, enter the console : rng-cli --n 'componentname' --type 'button' --stories true",
 ];
 function parseArgumentIntoOptions(rawArgs) {
   const args = arg(

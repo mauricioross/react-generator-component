@@ -7,6 +7,10 @@ import TemplatePage from "./TemplatePage";
 //   useParams,
 //   withRouter,
 // } from "react-router-dom";
+/**
+ * @author AUTHOR
+ * @returns 
+ */
 const TemplateContainer = () => {
   //React Router
   // const history = useHistory();
